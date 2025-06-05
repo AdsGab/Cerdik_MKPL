@@ -1,8 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.mycompany.cerdik_mkpl;
+
+import cerdik.desktop.Login_UI;
 
 /**
  *
@@ -11,6 +12,7 @@ package com.mycompany.cerdik_mkpl;
 public class Cerdik_mkpl {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Login_UI newForm = new Login_UI();
+        newForm.show();
     }
 }
