@@ -1,0 +1,31 @@
+name: Build and Package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+
+      - name: Build fat JAR with Maven
+        run: |
+          mvn clean package
+        env:
+          MAVEN_OPTS: "-Dmaven.compiler.release=22"
+
+      - name: Upload fat JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: cerdik-jar
+          path: target/cerdik_mkpl-1.0-SNAPSHOT-shaded.jar
