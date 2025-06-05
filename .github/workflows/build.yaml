@@ -9,23 +9,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+    permissions:
+      contents: read
+      actions: read
 
-      - name: Set up JDK
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 22
         uses: actions/setup-java@v3
         with:
           java-version: '22'
           distribution: 'temurin'
 
-      - name: Build fat JAR with Maven
-        run: |
-          mvn clean package
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Build JAR with Maven
+        run: mvn clean package
         env:
           MAVEN_OPTS: "-Dmaven.compiler.release=22"
 
-      - name: Upload fat JAR
-        uses: actions/upload-artifact@v3
+      - name: Upload built JAR
+        uses: actions/upload-artifact@v4
         with:
           name: cerdik-jar
-          path: target/cerdik_mkpl-1.0-SNAPSHOT-shaded.jar
+          path: target/cerdik_mkpl-1.0-SNAPSHOT.jar
