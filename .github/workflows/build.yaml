@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cerdik-jar
-          path: target/cerdik_mkpl-1.0-SNAPSHOT.jar
+          path: target/cerdik_mkpl-1.1-SNAPSHOT.jar
